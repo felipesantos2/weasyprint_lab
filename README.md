@@ -6,6 +6,14 @@
 - Jinja2
 - WeaseyPrint
 - Flask
-- Rich Cli
+- Rich CLI
 ### SETUP
+sync dependecies:
+```bash
+    uv sync
+```
+run script
+```bash
+    uv run app.py
+```
 ### NOTAS
