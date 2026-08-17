@@ -1,5 +1,5 @@
 # weasyprint_lab
 ---
-### PACOTES
+### STACK
 ### SETUP
 ### NOTAS
