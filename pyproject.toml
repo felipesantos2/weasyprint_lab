@@ -1,0 +1,25 @@
+[project]
+name = "weasyprint-lab"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "felipesantos2", email = "santospinheiro627@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "rich-cli>=1.8.1",
+]
+
+[project.scripts]
+weasyprint-lab = "weasyprint_lab:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ty>=0.0.72",
+]
