@@ -1,11 +1,14 @@
 # weasyprint_lab
+
 The project explores a simple workflow for generating HTML templates with Jinja2 and converting them into PDF documents using WeasyPrint.
+
 ---
+
 ### STACK
 - Python
 - UV
 - Jinja2
-- WeaseyPrint
+- WeasyPrint
 - Flask
 - Rich CLI
 ### SETUP
