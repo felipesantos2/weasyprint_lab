@@ -14,7 +14,6 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from flask import Flask  # noqa: F401
 from jinja2 import Template
 from rich.console import Console
 from weasyprint import HTML
@@ -82,14 +81,5 @@ def run() -> None:
         console.log("PDF Gerado com Sucesso! ")
 
 
-# app = Flask(__name__)
-
-# @app.route("/")
-# def home():
-#     run()
-#     return "<h1>Hello, World!</h1>"
-
-
 if __name__ == "__main__":
     run()
-    # app.run(host="127.0.0.1", port=8000, debug=True)
