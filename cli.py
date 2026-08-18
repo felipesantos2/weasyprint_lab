@@ -72,7 +72,7 @@ def run() -> None:
         template_objct = Template(template_str)
         html_out = render_jinja_template(template_objct, merge_context_data)
 
-        write_html_file(html_out)
+        # write_html_file(html_out)
 
         tmp_pdf = write_pdf_file(html_out)
     except Exception as e:  # noqa: BLE001
