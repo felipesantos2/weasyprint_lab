@@ -41,10 +41,11 @@ def render_jinja_template(template: Template, data: dict) -> str:
     return template.render(**data)
 
 
-def write_html_file(html_out: str) -> None:
+def write_html_file(html_out: str):
     file = os.path.abspath("./templates/template_debug.html")
     with open(file, "w", encoding="utf-8") as f:
         f.write(html_out)
+    return file
 
 
 def write_pdf_file(html_out: str) -> str:
