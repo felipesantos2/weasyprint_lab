@@ -9,14 +9,16 @@ Run in terminal:
     ruff check app.py
 """
 
+import datetime
 import os
-from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from jinja2 import Template
 from rich.console import Console
 from weasyprint import HTML
+
+date_time = datetime.datetime
 
 console = Console()
 
@@ -25,16 +27,13 @@ HTML_BASE_TEMPLATE = "template.jinja2.html"
 settings: dict[str, str] = {
     "title": "Relatório Base",
     "author": "@felipesantos2",
-    "created_at ": str(datetime.now(tz=ZoneInfo("America/Sao_Paulo"))),
+    "created_at ": str(date_time.now(tz=ZoneInfo("America/Sao_Paulo"))),
 }
 
 
-def load_html_template(file_path: str) -> str:
-    console.log("template base: ", file_path)
-
-    with open(file_path, "r", encoding="utf-8") as f:
-        template_str = f.read()
-    return template_str
+def load_html_template(file: Path) -> str:
+    console.log("template base: ", file)
+    return file.read_text()
 
 
 def render_jinja_template(template: Template, data: dict) -> str:
@@ -55,10 +54,9 @@ def write_pdf_file(html_out: str) -> str:
 
     Path("./templates/reports/pdf").mkdir(parents=True, exist_ok=True)
     output_path = f"./templates/reports/pdf/{uuid4}.pdf"
+    pdf = os.path.abspath(Path(output_path))
+    return HTML(string=html_out).write_pdf(pdf)
 
-    output_pdf = os.path.abspath(output_path)
-    HTML(string=html_out).write_pdf(output_pdf)
-    return output_pdf
 
 
 def run() -> None:
@@ -68,9 +66,7 @@ def run() -> None:
         template_str = load_html_template(template_path)
 
         merge_context_data: dict = settings
-
-        template_objct = Template(template_str)
-        html_out = render_jinja_template(template_objct, merge_context_data)
+        html_out = render_jinja_template(Template(template_str), merge_context_data)
 
         # write_html_file(html_out)
 

@@ -1,3 +1,4 @@
+import sys
 import os
 from pathlib import Path
 
@@ -24,7 +25,7 @@ def test_load_html_jinja_template():
     first_word = (
         template_str_content.split("\n")[0].split(" ")[0].split("!")[1]
     )  # get DOCKTYPE
-    assert "DOCTYPE" == first_word  # noqa: SIM222
+    assert "DOCTYPE" == first_word
 
 
 def test_html_template_file_generated():
@@ -39,15 +40,10 @@ def test_html_template_file_generated():
     assert Path(html_file).is_file()
 
 
-def test_pdf_generated():
-    template_path = os.path.abspath(f"./templates/{HTML_BASE_TEMPLATE}")
+def test_pdf_document_is_generated():
+    template_path = Path("./templates/template.jinja2.html")
     template_str = load_html_template(template_path)
 
-    merge_context_data: dict = settings
-    template_objct = Template(template_str)
+    html_out = render_jinja_template(Template(template_str), settings)
 
-    html_out = render_jinja_template(template_objct, merge_context_data)
-    write_html_file(html_out)
-    pdf_file = write_pdf_file(html_out)
-
-    assert Path(pdf_file).is_file()
+    assert write_pdf_file(html_out) == template_path
