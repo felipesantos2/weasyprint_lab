@@ -1,18 +1,15 @@
 import uuid
-import sys
-import os
 from pathlib import Path
 
-import pytest
 from jinja2 import Template
 from rich.console import Console
 
 from cli import (
-    load_html_template,
-    render_jinja_template,
-    settings,
-    write_html_file,
-    write_pdf_file,
+	load_html_template,
+	render_jinja_template,
+	settings,
+	write_html_file,
+	write_pdf_file,
 )
 
 console = Console()
@@ -41,13 +38,13 @@ def test_jinja_html_template_generated():
 	output_file = Path("./templates/template_debug.html")
 	html_file = write_html_file(html_out_content, output_file)
 
-	assert True == html_file.exists()
-	assert True == html_file.is_file()
+	assert html_file.exists()
+	assert html_file.is_file()
 	assert Path("./templates/template_debug.html") ==  html_file
 
 
 def test_pdf_document_is_generated():
-	""" testa se arquivo em pdf é gerado """
+	""" testa se o documento em pdf é gerado """
 	template_str_content = load_html_template(HTML_BASE_TEMPLATE)
 
 	merge_context_data: dict = settings
@@ -62,10 +59,10 @@ def test_pdf_document_is_generated():
 	assert "DOCTYPE" in template_str_content
 	assert "html" in template_str_content
 
-	assert True == html_file.exists()
-	assert True == html_file.is_file()
+	assert html_file.exists()
+	assert html_file.is_file()
 	assert Path("./templates/template_debug.html") ==  html_file
 
-	assert True == pdf_file.exists()
-	assert True == pdf_file.is_file()
+	assert pdf_file.exists()
+	assert pdf_file.is_file()
 	assert output_file == pdf_file
