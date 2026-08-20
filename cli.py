@@ -8,6 +8,8 @@ Run in terminal:
     ruff format app.py
     ruff check app.py
 """
+from docutils.parsers.rst.directives import encoding
+from importlib.resources import path
 
 import datetime
 import os
@@ -33,29 +35,23 @@ settings: dict[str, str] = {
 
 def load_html_template(file: Path) -> str:
     console.log("template base: ", file)
-    return file.read_text()
+    return file.read_text(encoding="utf-8")
 
 
 def render_jinja_template(template: Template, data: dict) -> str:
     return template.render(**data)
 
 
-def write_html_file(html_out: str):
-    file = os.path.abspath("./templates/template_debug.html")
+def write_html_file(html_out_content: str, file: Path) -> Path:
     with open(file, "w", encoding="utf-8") as f:
-        f.write(html_out)
+        f.write(html_out_content)
     return file
 
 
-def write_pdf_file(html_out: str) -> str:
-    import uuid
-
-    uuid4 = uuid.uuid4()
-
+def write_pdf_file(html_out: str, file: Path) -> Path:
     Path("./templates/reports/pdf").mkdir(parents=True, exist_ok=True)
-    output_path = f"./templates/reports/pdf/{uuid4}.pdf"
-    pdf = os.path.abspath(Path(output_path))
-    return HTML(string=html_out).write_pdf(pdf)
+    HTML(string=html_out).write_pdf(file)
+    return file
 
 
 
