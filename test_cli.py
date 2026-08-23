@@ -20,6 +20,7 @@ HTML_BASE_TEMPLATE = Path("./templates/template.jinja2.html")
 
 # ARRANGE
 # SUT
+# 	não podemos ter um input e output verdadeiro, temos que mocar essas informações ou simular elas de alguma forma
 # ASSERT
 
 # verifica se há um retorno de um html
