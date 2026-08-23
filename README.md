@@ -1,5 +1,7 @@
 # weasyprint_lab
 
+A brief demonstration of PDF **rendering** using Python, Jinja2, and **WeasyPrint**
+
 The project explores a simple workflow for generating HTML templates with Jinja2 and converting them into PDF documents using WeasyPrint.
 
 ---
