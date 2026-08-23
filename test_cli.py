@@ -18,6 +18,9 @@ PDF_DOC_OUTPUT = uuid.uuid4()
 
 HTML_BASE_TEMPLATE = Path("./templates/template.jinja2.html")
 
+# ARRANGE
+# SUT
+# ASSERT
 
 # verifica se há um retorno de um html
 def test_jinja_html_template_loaded():
