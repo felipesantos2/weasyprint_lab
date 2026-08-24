@@ -1,7 +1,9 @@
-import datetime
+import datetime as dt
 import os
+import sys
 import uuid
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from jinja2 import Template
 from rich.console import Console
@@ -10,14 +12,16 @@ from weasyprint import HTML
 console = Console()
 
 PDF_DOC_OUTPUT = uuid.uuid4()
-
 HTML_BASE_TEMPLATE = Path("./templates/template.jinja2.html")
 
 settings: dict[str, str] = {
     "title": "Relatório Base",
     "author": "@felipesantos2",
-    "created_at ": str(datetime.datetime.now()),
+    "created_at": str(
+        dt.datetime.now(tz=ZoneInfo("America/Sao_Paulo")).strftime("%d-%m-%Y")
+    ),
 }
+
 
 def load_html_template(file: Path) -> str:
     console.log("template base: ", file)
@@ -39,12 +43,14 @@ def write_pdf_file(html_out: str, file: Path) -> Path:
     HTML(string=html_out).write_pdf(file)
     return file
 
+
 def delete_file(file: Path) -> bool:
-    if os.path.exists(str(file)):
-        os.remove(str(file))
+    if file.is_file():
+        os.remove(file)
         console.log(f"file: [{file}] deletado com sucesso!")
         return True
-    return False;
+    return False
+
 
 def run() -> int:
     try:
@@ -52,10 +58,12 @@ def run() -> int:
         template_str_content = load_html_template(HTML_BASE_TEMPLATE)
 
         merge_context_data: dict = settings
-        html_out_content = render_jinja_template(Template(template_str_content), merge_context_data)
+        html_out_content = render_jinja_template(
+            Template(template_str_content), merge_context_data
+        )
 
         output_file = Path("./templates/template_debug.html")
-        html_file = write_html_file(html_out_content, output_file) #noqa
+        html_file = write_html_file(html_out_content, output_file)  # noqa
 
         output_file = Path(f"./templates/reports/pdf/{PDF_DOC_OUTPUT}.pdf")
         pdf_file = write_pdf_file(html_out_content, output_file)
@@ -64,12 +72,12 @@ def run() -> int:
         delete_file(output_file)
 
         console.log("tmp file: ", pdf_file)
-        console.log("PDF Gerado com Sucesso! ")
+        console.log("PDF Gerado e deletado com Sucesso! ")
 
-        return 0
+        raise SystemExit(0)
     except Exception as e:  # noqa: BLE001
         console.log(f"Erro! Exception: {e} ")
-        return 1
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
