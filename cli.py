@@ -1,34 +1,23 @@
-"""
-Start Dev web server:
-    flask run --reload
-    uv run flask run --reload
-
-Run in terminal:
-    uv run app.py
-    ruff format app.py
-    ruff check app.py
-"""
 import datetime
 import os
+import uuid
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 from jinja2 import Template
 from rich.console import Console
 from weasyprint import HTML
 
-date_time = datetime.datetime
-
 console = Console()
 
-HTML_BASE_TEMPLATE = "template.jinja2.html"
+PDF_DOC_OUTPUT = uuid.uuid4()
+
+HTML_BASE_TEMPLATE = Path("./templates/template.jinja2.html")
 
 settings: dict[str, str] = {
     "title": "Relatório Base",
     "author": "@felipesantos2",
-    "created_at ": str(date_time.now(tz=ZoneInfo("America/Sao_Paulo"))),
+    "created_at ": str(datetime.datetime.now()),
 }
-
 
 def load_html_template(file: Path) -> str:
     console.log("template base: ", file)
@@ -50,25 +39,37 @@ def write_pdf_file(html_out: str, file: Path) -> Path:
     HTML(string=html_out).write_pdf(file)
     return file
 
+def delete_file(file: Path) -> bool:
+    if os.path.exists(str(file)):
+        os.remove(str(file))
+        console.log(f"file: [{file}] deletado com sucesso!")
+        return True
+    return False;
 
-
-def run() -> None:
+def run() -> int:
     try:
-        template_path = f"./templates/{HTML_BASE_TEMPLATE}"
-        template_path = os.path.abspath(template_path)
-        template_str = load_html_template(template_path)
+        # 0 -> OK 1 - Fail
+        template_str_content = load_html_template(HTML_BASE_TEMPLATE)
 
         merge_context_data: dict = settings
-        html_out = render_jinja_template(Template(template_str), merge_context_data)
+        html_out_content = render_jinja_template(Template(template_str_content), merge_context_data)
 
-        # write_html_file(html_out)
+        output_file = Path("./templates/template_debug.html")
+        html_file = write_html_file(html_out_content, output_file) #noqa
 
-        tmp_pdf = write_pdf_file(html_out)
+        output_file = Path(f"./templates/reports/pdf/{PDF_DOC_OUTPUT}.pdf")
+        pdf_file = write_pdf_file(html_out_content, output_file)
+
+        # Lógica/função para salvar em um bucket/drive upload ..
+        delete_file(output_file)
+
+        console.log("tmp file: ", pdf_file)
+        console.log("PDF Gerado com Sucesso! ")
+
+        return 0
     except Exception as e:  # noqa: BLE001
         console.log(f"Erro! Exception: {e} ")
-    else:
-        console.log("tmp file: ", tmp_pdf)
-        console.log("PDF Gerado com Sucesso! ")
+        return 1
 
 
 if __name__ == "__main__":
