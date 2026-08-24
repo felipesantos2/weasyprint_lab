@@ -23,3 +23,6 @@ run script
     uv run app.py
 ```
 ### NOTAS
+Os testes estão evoluindo gradualemente. Primeto escrevi funções básicas para carregar e criar os arquivos. Agora adicionei uma função para deletar esses documentos gerados, evitanto o acumulo desnecessário.
+
+**Conceito Inportante:** Esses tipos de teste devem evitar operações com **I/O** ou de alguma forma mascarar esse comportamento, pois em um cenário hipotético onde podemos temos centena de testes, aqui surgiria um grande garga-lo. Testes unitários precisão ser rápidos para fazer sentido existirem.

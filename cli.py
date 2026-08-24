@@ -60,7 +60,7 @@ def run() -> int:
         output_file = Path(f"./templates/reports/pdf/{PDF_DOC_OUTPUT}.pdf")
         pdf_file = write_pdf_file(html_out_content, output_file)
 
-        # Lógica/função para salvar em um bucket/drive upload ..
+        # Aqui podemos adicionar lógicas de upload em um bucket GCS, S3, Drive e até mesmo deixar no disco
         delete_file(output_file)
 
         console.log("tmp file: ", pdf_file)
