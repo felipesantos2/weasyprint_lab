@@ -30,6 +30,7 @@ O projeto explora um fluxo simples para gerar modelos HTML com o Jinja2 e conver
     pytest
 ```
 ### NOTAS
+
 Os testes estão evoluindo gradualmente. Primeiro escrevi funções básicas para carregar e criar os arquivos. Agora adicionei uma função para deletar esses arquivos gerados, evitando o acumulo desnecessário.
 ---
 **Conceito Importante:** 
