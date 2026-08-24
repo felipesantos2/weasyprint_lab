@@ -1,18 +1,7 @@
-"""
-Start Dev web server:
-    flask run --reload
-    uv run flask run --reload
-
-Run in terminal:
-    uv run app.py
-    ruff format app.py
-    ruff check app.py
-"""
-
+import datetime
 import os
-from datetime import datetime
+import uuid
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 from jinja2 import Template
 from rich.console import Console
@@ -20,65 +9,67 @@ from weasyprint import HTML
 
 console = Console()
 
-HTML_BASE_TEMPLATE = "template.jinja2.html"
+PDF_DOC_OUTPUT = uuid.uuid4()
+
+HTML_BASE_TEMPLATE = Path("./templates/template.jinja2.html")
 
 settings: dict[str, str] = {
     "title": "Relatório Base",
     "author": "@felipesantos2",
-    "created_at ": str(datetime.now(tz=ZoneInfo("America/Sao_Paulo"))),
+    "created_at ": str(datetime.datetime.now()),
 }
 
-
-def load_html_template(file_path: str) -> str:
-    console.log("template base: ", file_path)
-
-    with open(file_path, "r", encoding="utf-8") as f:
-        template_str = f.read()
-    return template_str
+def load_html_template(file: Path) -> str:
+    console.log("template base: ", file)
+    return file.read_text(encoding="utf-8")
 
 
 def render_jinja_template(template: Template, data: dict) -> str:
     return template.render(**data)
 
 
-def write_html_file(html_out: str) -> None:
-    file = os.path.abspath("./templates/template_debug.html")
+def write_html_file(html_out_content: str, file: Path) -> Path:
     with open(file, "w", encoding="utf-8") as f:
-        f.write(html_out)
+        f.write(html_out_content)
+    return file
 
 
-def write_pdf_file(html_out: str) -> str:
-    import uuid
-
-    uuid4 = uuid.uuid4()
-
+def write_pdf_file(html_out: str, file: Path) -> Path:
     Path("./templates/reports/pdf").mkdir(parents=True, exist_ok=True)
-    output_path = f"./templates/reports/pdf/{uuid4}.pdf"
+    HTML(string=html_out).write_pdf(file)
+    return file
 
-    output_pdf = os.path.abspath(output_path)
-    HTML(string=html_out).write_pdf(output_pdf)
-    return output_pdf
+def delete_file(file: Path) -> bool:
+    if os.path.exists(str(file)):
+        os.remove(str(file))
+        console.log(f"file: [{file}] deletado com sucesso!")
+        return True
+    return False;
 
-
-def run() -> None:
+def run() -> int:
     try:
-        template_path = f"./templates/{HTML_BASE_TEMPLATE}"
-        template_path = os.path.abspath(template_path)
-        template_str = load_html_template(template_path)
+        # 0 -> OK 1 - Fail
+        template_str_content = load_html_template(HTML_BASE_TEMPLATE)
 
         merge_context_data: dict = settings
+        html_out_content = render_jinja_template(Template(template_str_content), merge_context_data)
 
-        template_objct = Template(template_str)
-        html_out = render_jinja_template(template_objct, merge_context_data)
+        output_file = Path("./templates/template_debug.html")
+        html_file = write_html_file(html_out_content, output_file) #noqa
 
-        write_html_file(html_out)
+        output_file = Path(f"./templates/reports/pdf/{PDF_DOC_OUTPUT}.pdf")
+        pdf_file = write_pdf_file(html_out_content, output_file)
 
-        tmp_pdf = write_pdf_file(html_out)
+        # Lógica/função para salvar em um bucket/drive upload ..
+        delete_file(output_file)
+
+        console.log("tmp file: ", pdf_file)
+        console.log("PDF Gerado com Sucesso! ")
+
+        return 0
     except Exception as e:  # noqa: BLE001
         console.log(f"Erro! Exception: {e} ")
-    else:
-        console.log("tmp file: ", tmp_pdf)
-        console.log("PDF Gerado com Sucesso! ")
+        return 1
 
 
 if __name__ == "__main__":

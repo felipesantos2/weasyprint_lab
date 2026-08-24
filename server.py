@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from flask import Flask  # noqa: F401
+from flask import Flask
 from jinja2 import Template
 from rich.console import Console
 from weasyprint import HTML
