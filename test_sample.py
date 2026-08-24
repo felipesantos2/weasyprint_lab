@@ -8,3 +8,8 @@ def func(x):
 
 def test_answer():
     assert func(4) == 5
+
+# ARRANGE
+# SUT
+# 	não podemos ter um input e output verdadeiro, temos que mocar essas informações ou simular elas de alguma forma
+# ASSERT
