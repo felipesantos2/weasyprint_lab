@@ -22,6 +22,7 @@ O projeto explora um fluxo simples para gerar modelos HTML com o Jinja2 e conver
 ```bash
     uv run app.py
 ```
+`run tests:`
 ```bash
     uv run pytest
 ```
