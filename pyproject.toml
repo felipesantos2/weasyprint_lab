@@ -19,7 +19,7 @@ dependencies = [
 Repository =  "https://github.com/felipesantos2/weasyprint_lab"
 
 [project.scripts]
-app = "weasyprint_lab.main:app"
+cli = "weasyprint_lab.cli:run"
 
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]
