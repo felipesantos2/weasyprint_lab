@@ -1,8 +1,15 @@
 # weasyprint_lab
 
-Uma breve demonstração da **renderização** de PDFs usando Python, Jinja2 e **WeasyPrint**
+Uma breve demonstração da **Renderização** de PDFs usando Python, Jinja2 e **WeasyPrint**
 
 O projeto explora um fluxo simples para gerar modelos HTML com o Jinja2 e convertê-los em documentos PDF usando o WeasyPrint.
+
+Tive um grande problema com o **ReportLab**, dando manutenção em alguns relatórios em PDF gerados com ele.
+Sua sintaxe e comportamento são muitos extranhos, depois de tanto tentar fui em busca de uma solução mais simples: **Renderizar PDFS**.
+
+Em soluções como o **ReportLab** o **PDF** é montado linha a linha como um lego. Agora, na renderização só precisamos de um **HTML** para ser convertido.
+
+>  Isso é exatamente o que acontece quanto uma página da WEB é salva como PDF pelo seu Browser. O Famoso: **CTRL + P**
 
 ---
 
@@ -20,7 +27,7 @@ O projeto explora um fluxo simples para gerar modelos HTML com o Jinja2 e conver
 ```
 `run script:`
 ```bash
-    uv run app.py
+    uv run cli
 ```
 `run tests:`
 ```bash
@@ -29,6 +36,20 @@ O projeto explora um fluxo simples para gerar modelos HTML com o Jinja2 e conver
 ```bash
     pytest
 ```
+
+---
+
+### Fluxo/Comportamento
+
+O **fluxo** de execução e também de pensamento do código seria basicamente esse:
+
+- DADOS
+- TEMPLATE: Um arquivo HTML com as marcações do `Jinja`
+- RENDERIZAÇÃO: Passamos os dados para o Jinja, ele vai substituir em suas marcações e retornar uma string com o HTML completo
+- DOCUMENTO(PDF): Usamos a String de HTML para criar um PDF usando `WeasyPrint`
+
+![fluxo](./docs/fluxo.png)
+
 ### NOTAS
 
 Os testes estão evoluindo gradualmente. Primeiro escrevi funções básicas para carregar e criar os arquivos. Agora adicionei uma função para deletar esses arquivos gerados, evitando o acumulo desnecessário.
@@ -36,4 +57,4 @@ Os testes estão evoluindo gradualmente. Primeiro escrevi funções básicas par
 ---
 **Conceito Importante:** 
 
-Esses tipos de testes devem evitar operações com **I/O** ou de alguma forma mascarar esse comportamento, pois em um cenário hipotético onde podemos temos centena de testes, aqui é onde surgiria um grande gargalo. Testes unitários precisão ser rápidos para fazer sentido existirem.
+Esses tipos de testes devem evitar operações com **I/O** em excesso ou de alguma forma mascarar esse comportamento, pois em um cenário hipotético onde podemos ter centenas de testes, aqui é onde surgiria um grande gargalo. Testes unitários precisão ser rápidos para fazer sentido existirem.
