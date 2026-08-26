@@ -43,10 +43,18 @@ Em soluções como o **ReportLab** o **PDF** é montado linha a linha como um le
 
 O **fluxo** de execução e também de pensamento do código seria basicamente esse:
 
-- DADOS
-- TEMPLATE: Um arquivo HTML com as marcações do `Jinja`
-- RENDERIZAÇÃO: Passamos os dados para o Jinja, ele vai substituir em suas marcações e retornar uma string com o HTML completo
-- DOCUMENTO(PDF): Usamos a String de HTML para criar um PDF usando `WeasyPrint`
+1. DADOS
+2. TEMPLATE: 
+
+    Um arquivo HTML com as marcações do `Jinja`
+
+3. RENDERIZAÇÃO: 
+
+    Passamos os dados para o Jinja, ele vai substituir em suas marcações e retornar uma string com o HTML completo
+
+4. DOCUMENTO(PDF): 
+
+    Usamos a String de HTML para criar um PDF usando o `WeasyPrint`
 
 ![fluxo](./docs/fluxo.png)
 
