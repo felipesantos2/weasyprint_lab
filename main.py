@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 from jinja2 import Template
 from rich.console import Console
 from weasyprint import HTML
+from google.cloud import storage
 
 console = Console()
 
@@ -51,6 +52,22 @@ def delete_file(file: Path) -> bool:
         return True
     return False
 
+class Storage:
+    client: storage.Client
+
+    def __init__(self, storage, bucket):
+        self.client = storage
+
+    def bucket(self):
+        pass
+
+class GcsStorage:
+    def __init__(self):
+        pass
+
+def save_file(storage_type: Storage, file: Path):
+    # storage_type.save(file)
+    pass
 
 def run() -> int:
     try:
@@ -69,6 +86,12 @@ def run() -> int:
         pdf_file = write_pdf_file(html_out_content, output_file)
 
         # Aqui podemos adicionar lógicas de upload em um bucket GCS, S3, Drive e até mesmo deixar no disco
+
+        save_file(
+            storage_type=Storage(storage='gcs', bucket='rota-bahia'),
+            file=pdf_file
+        )
+
         delete_file(output_file)
 
         console.log("tmp file: ", pdf_file)
