@@ -8,7 +8,6 @@ from zoneinfo import ZoneInfo
 from jinja2 import Template
 from rich.console import Console
 from weasyprint import HTML
-from google.cloud import storage
 
 console = Console()
 
@@ -53,20 +52,25 @@ def delete_file(file: Path) -> bool:
     return False
 
 class Storage:
-    client: storage.Client
-
     def __init__(self, storage, bucket):
-        self.client = storage
+        self.storage = storage
+        self.bucket = bucket
 
-    def bucket(self):
+    def connect():
         pass
 
-class GcsStorage:
-    def __init__(self):
+    def save():
         pass
 
-def save_file(storage_type: Storage, file: Path):
-    # storage_type.save(file)
+class GcsStorage(Storage):
+    def __init__(self, bucket, storage='GCS'):
+        pass
+
+class S3Storage(Storage):
+    def __init__(self, bucket, storage='S3'):
+        pass
+
+def save_file(storage, file):
     pass
 
 def run() -> int:
@@ -88,7 +92,7 @@ def run() -> int:
         # Aqui podemos adicionar lógicas de upload em um bucket GCS, S3, Drive e até mesmo deixar no disco
 
         save_file(
-            storage_type=Storage(storage='gcs', bucket='rota-bahia'),
+            storage=GcsStorage(bucket='rota'),
             file=pdf_file
         )
 
