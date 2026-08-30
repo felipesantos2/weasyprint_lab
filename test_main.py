@@ -4,7 +4,10 @@ import tempfile as tp
 import uuid
 from pathlib import Path
 
-from cli import (
+from jinja2 import Template
+from rich.console import Console
+
+from main import (
     delete_file,
     load_html_template,
     render_jinja_template,
@@ -13,8 +16,6 @@ from cli import (
     write_html_file,
     write_pdf_file,
 )
-from jinja2 import Template
-from rich.console import Console
 
 console = Console()
 
