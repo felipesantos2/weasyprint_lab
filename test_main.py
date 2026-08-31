@@ -69,10 +69,9 @@ def test_delete_file_successfuly():
     assert delete_file(path)
 
 
-def test_delete_file_failed():
-    deleted = delete_file(
-        Path("./templates/reports/pdf/74a4c7fe-e30e-49a5-94db-cf368d760748.pdf")
-    )
+def test_delete_file_failed(tmp_path):
+    path = tmp_path / "doc.pdf"
+    deleted = delete_file(path)
     assert False == deleted
 
 
