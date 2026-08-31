@@ -4,6 +4,7 @@ import tempfile as tp
 import uuid
 from pathlib import Path
 
+import pytest
 from jinja2 import Template
 from rich.console import Console
 
@@ -23,17 +24,22 @@ PDF_DOC_OUTPUT = uuid.uuid4()
 HTML_BASE_TEMPLATE = Path("./templates/template.jinja2.html")
 
 
-def test_jinja_html_template_loaded():
+@pytest.fixture
+def load_template_func():
+    return load_html_template(HTML_BASE_TEMPLATE)
+
+
+def test_jinja_html_template_loaded(load_template_func):
     """testa se o arquivo de template base é carregado"""
-    template_str_content = load_html_template(HTML_BASE_TEMPLATE)
+    template_str_content = load_template_func
 
     assert "DOCTYPE" in template_str_content
     assert "html" in template_str_content
 
 
-def test_jinja_html_template_generated():
+def test_jinja_html_template_generated(load_template_func):
     """testa se arquivo de template em html é gerado"""
-    template_str_content = load_html_template(HTML_BASE_TEMPLATE)
+    template_str_content = load_template_func
 
     merge_context_data: dict = settings
     html_out_content = render_jinja_template(
@@ -76,9 +82,9 @@ def test_run():
     assert 0 == value
 
 
-def test_pdf_document_is_generated():
+def test_pdf_document_is_generated(load_template_func):
     """testa se o documento em pdf é gerado"""
-    template_str_content = load_html_template(HTML_BASE_TEMPLATE)
+    template_str_content = load_template_func
 
     merge_context_data: dict = settings
     html_out_content = render_jinja_template(
