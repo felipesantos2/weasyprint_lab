@@ -5,9 +5,12 @@ import uuid
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from dotenv import load_dotenv
 from jinja2 import Template
 from rich.console import Console
 from weasyprint import HTML
+
+load_dotenv()
 
 console = Console()
 
@@ -51,6 +54,7 @@ def delete_file(file: Path) -> bool:
         return True
     return False
 
+
 class Storage:
     def __init__(self, storage, bucket):
         self.storage = storage
@@ -62,16 +66,20 @@ class Storage:
     def save():
         pass
 
+
 class GcsStorage(Storage):
-    def __init__(self, bucket, storage='GCS'):
+    def __init__(self, bucket, storage="GCS"):
         pass
 
+
 class S3Storage(Storage):
-    def __init__(self, bucket, storage='S3'):
+    def __init__(self, bucket, storage="S3"):
         pass
+
 
 def save_file(storage, file):
     pass
+
 
 def run() -> int:
     try:
@@ -91,10 +99,7 @@ def run() -> int:
 
         # Aqui podemos adicionar lógicas de upload em um bucket GCS, S3, Drive e até mesmo deixar no disco
 
-        save_file(
-            storage=GcsStorage(bucket='rota'),
-            file=pdf_file
-        )
+        save_file(storage=GcsStorage(bucket="rota"), file=pdf_file)
 
         delete_file(output_file)
 

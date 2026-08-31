@@ -4,7 +4,11 @@ import tempfile as tp
 import uuid
 from pathlib import Path
 
-from cli import (
+import pytest
+from jinja2 import Template
+from rich.console import Console
+
+from main import (
     delete_file,
     load_html_template,
     render_jinja_template,
@@ -13,8 +17,6 @@ from cli import (
     write_html_file,
     write_pdf_file,
 )
-from jinja2 import Template
-from rich.console import Console
 
 console = Console()
 
@@ -22,17 +24,22 @@ PDF_DOC_OUTPUT = uuid.uuid4()
 HTML_BASE_TEMPLATE = Path("./templates/template.jinja2.html")
 
 
-def test_jinja_html_template_loaded():
+@pytest.fixture
+def load_template_func():
+    return load_html_template(HTML_BASE_TEMPLATE)
+
+
+def test_jinja_html_template_loaded(load_template_func):
     """testa se o arquivo de template base é carregado"""
-    template_str_content = load_html_template(HTML_BASE_TEMPLATE)
+    template_str_content = load_template_func
 
     assert "DOCTYPE" in template_str_content
     assert "html" in template_str_content
 
 
-def test_jinja_html_template_generated():
+def test_jinja_html_template_generated(load_template_func):
     """testa se arquivo de template em html é gerado"""
-    template_str_content = load_html_template(HTML_BASE_TEMPLATE)
+    template_str_content = load_template_func
 
     merge_context_data: dict = settings
     html_out_content = render_jinja_template(
@@ -62,10 +69,9 @@ def test_delete_file_successfuly():
     assert delete_file(path)
 
 
-def test_delete_file_failed():
-    deleted = delete_file(
-        Path("./templates/reports/pdf/74a4c7fe-e30e-49a5-94db-cf368d760748.pdf")
-    )
+def test_delete_file_failed(tmp_path):
+    path = tmp_path / "doc.pdf"
+    deleted = delete_file(path)
     assert False == deleted
 
 
@@ -75,9 +81,9 @@ def test_run():
     assert 0 == value
 
 
-def test_pdf_document_is_generated():
+def test_pdf_document_is_generated(load_template_func):
     """testa se o documento em pdf é gerado"""
-    template_str_content = load_html_template(HTML_BASE_TEMPLATE)
+    template_str_content = load_template_func
 
     merge_context_data: dict = settings
     html_out_content = render_jinja_template(

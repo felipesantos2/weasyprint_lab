@@ -65,6 +65,12 @@ Os testes estão evoluindo gradualmente. Primeiro escrevi funções básicas par
 
 Esses tipos de testes devem evitar operações com **I/O** em excesso ou de alguma forma mascarar esse comportamento, pois em um cenário hipotético onde podemos ter centenas de testes, aqui é onde surgiria um grande gargalo. Testes unitários precisão ser rápidos para fazer sentido existirem.
 
+
+Melhorando os erros no terminal:
+
+[pytest.toml](pytest.toml) Podemos adicionar alguns argumentos que antes teriamos que passar diretamente na CLI, assim nosso output fica mais detalhado.
+
+
 ### TODO
 - [] Separar/distinguir exatamente os testes de unidade e integração (unit x feature)
 - [] Adicionar ao fluxo o upload dos arquivos em um Bucket GCS
