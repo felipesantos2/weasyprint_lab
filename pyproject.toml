@@ -53,6 +53,7 @@ fixable = ["ALL"]
 unfixable = []
 
 [tool.ruff.format]
-quote-style = "single"
+quote-style = "double"
+
 
 [tool.ty]
