@@ -43,10 +43,4 @@ jobs:
         run: |
           ls ${{ github.workspace }}
 
-      - name: Commit formatted changes
-        uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          persist-credentials: true
-          commit_message: "style: auto-format code with ruff in github action"
-
       - run: echo "This job's status is ${{ job.status }}."
