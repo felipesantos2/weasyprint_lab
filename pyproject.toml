@@ -47,4 +47,12 @@ line-length=88
 fix=true
 show-fixes=true
 
+[tool.ruff.lint]
+ignore = []
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "single"
+
 [tool.ty]

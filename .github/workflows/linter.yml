@@ -1,0 +1,52 @@
+on:
+  pull_request:
+  push:
+    branches:
+      - "*"
+
+name: Code Quality
+
+jobs:
+  linter:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository. Get latest code code of Repo
+        id: repo-checkout
+        uses: actions/checkout@v6
+
+      - name: Install uv with all available options
+        id: setup-uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          working-directory: "./"
+          python-version: "3.13"
+
+      - run: echo "Installed uv version is ${{ steps.setup-uv.outputs.uv-version }}"
+      - run: uv sync
+
+      - name: Install Ruff
+        id: add-ruff
+        uses: astral-sh/ruff-action@v4.1.0
+        with:
+          src: "**/*.py"
+          version-file: "./pyproject.toml"
+          args: "--version"
+
+      - name: Run Ruff
+        id: run-ruff
+        run: |
+            uv run ruff format --check
+
+      - name: List Files in repo
+        run: |
+          ls ${{ github.workspace }}
+
+      - name: Commit formatted changes
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          persist-credentials: true
+          commit_message: "style: auto-format code with ruff in github action"
+
+      - run: echo "This job's status is ${{ job.status }}."

@@ -1,6 +1,3 @@
-import os
-import sys
-import tempfile as tp
 import uuid
 from pathlib import Path
 
@@ -55,22 +52,19 @@ def test_jinja_html_template_generated(load_template_func):
 
 
 ## TODO: fix this test
-def test_delete_file_successfuly():
-    with tp.NamedTemporaryFile(suffix=".pdf") as t:
-        tmp_file = t.name
+def test_delete_file_successfully(tmp_path):
+    file = tmp_path / "doc.pdf"
 
-    # console.log(Path(tmp_file).parent)
+    file.write_text("Olá")
 
-    path = Path(tmp_file)
-
-    assert "/tmp" == str(path.parent)
-    assert Path(tmp_file).is_file()
-    ## WARNING - break
-    assert delete_file(path)
+    assert Path(file).exists()
+    assert Path(file).is_file()
+    assert delete_file(file)
 
 
 def test_delete_file_failed(tmp_path):
     path = tmp_path / "doc.pdf"
+    console.log(path)
     deleted = delete_file(path)
     assert False == deleted
 
@@ -108,5 +102,4 @@ def test_pdf_document_is_generated(load_template_func):
     assert output_file == pdf_file
 
     deleted = delete_file(output_file)
-
     assert True == deleted

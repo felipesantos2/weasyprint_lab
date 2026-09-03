@@ -1,6 +1,5 @@
 import datetime as dt
 import os
-import sys
 import uuid
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -47,7 +46,7 @@ def write_pdf_file(html_out: str, file: Path) -> Path:
     return file
 
 
-def delete_file(file: Path) -> bool:
+def delete_file(file: Path):
     if file.is_file():
         os.remove(file)
         console.log(f"file: [{file}] deletado com sucesso!")
@@ -98,7 +97,6 @@ def run() -> int:
         pdf_file = write_pdf_file(html_out_content, output_file)
 
         # Aqui podemos adicionar lógicas de upload em um bucket GCS, S3, Drive e até mesmo deixar no disco
-
         save_file(storage=GcsStorage(bucket="rota"), file=pdf_file)
 
         delete_file(output_file)
