@@ -16,7 +16,7 @@ jobs:
         id: repo-checkout
         uses: actions/checkout@v6
 
-      - name: Install uv with all available options
+      - name: Install UV with all available options
         id: setup-uv
         uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
