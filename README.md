@@ -77,3 +77,12 @@ Melhorando os erros no terminal:
 
 
 Percerbendo o escopo dos testes até então, todos eles sé comportam como testes de feature e não sei se vamos conseguir ter algo que se aproxime de um teste de unidade ou função pura.
+
+
+---
+
+Vamos trocar uma ideia no LinkedIn:
+
+[LinkedIn](https://www.linkedin.com/in/felipepinheiro2/)
+
+---
