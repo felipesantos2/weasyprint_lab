@@ -7,24 +7,23 @@ O projeto explora um fluxo simples para gerar modelos HTML com o Jinja2 e conver
 #### O Problema:
 
 Tive um grande problema com o **ReportLab**, dando manutenção em alguns relatórios em PDF gerados com ele.
-Sua sintaxe e comportamento são muitos extranhos, depois de tanto tentar fui em busca de uma solução mais simples: **Renderizar PDFS**.
+Sua sintaxe e comportamento são muitos estranhos, depois de tanto tentar fui em busca de uma solução mais simples: **Renderizar PDFS**.
 
 ---
 
 Em soluções como o **ReportLab** o **PDF** é montado linha a linha como um lego. Agora, na renderização só precisamos de um **HTML** para ser convertido.
 
 
->  Isso é exatamente o que acontece quanto salvamos uma página da WEB em PDF pelo seu Browser. O Famoso: **CTRL + P**
+>  Isso é exatamente o que acontece qunado salvamos uma página da WEB em PDF pelo seu Browser. O Famoso: **CTRL + P**
 
 ### STACK
 - Python
 - UV
 - Jinja2
 - WeasyPrint
-- Flask
 - Rich CLI
 ### SETUP
-`sync dependecies:`
+`sync dependencies:`
 ```bash
     uv sync
 ```
@@ -76,7 +75,7 @@ Melhorando os erros no terminal:
 - [] Adicionar ao fluxo o upload dos arquivos em um Bucket GCS
 
 
-Percerbendo o escopo dos testes até então, todos eles sé comportam como testes de feature e não sei se vamos conseguir ter algo que se aproxime de um teste de unidade ou função pura.
+Os testes até então, todos eles se comportam como testes de feature e não sei se vamos conseguir ter algo que se aproxime de um teste de unidade ou função pura.
 
 
 ---
